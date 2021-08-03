@@ -22,12 +22,7 @@ The command has two "modes", `publish` and `subscribe`.
     $ bunny --help
     ...
     OPTIONS:
-        -h, --host <host>            RabbitMQ host [default: 127.0.0.1]
-        -p, --password <password>    Password to authenticate with [default: guest]
-        -P, --port <port>            Port to connect to [default: 5672]
-        -U, --url <url>              AMQP connection url (amqp://user:pass@host:port/vhost)
-        -u, --user <user>            User to authenticate with [default: guest]
-        -v, --vhost <vhost>          Virtual host [default: ]
+        -u, --uri <uri>              AMQP connection url (amqp://user:pass@host:port/vhost)
 
 ### Environment variables
 
@@ -37,28 +32,7 @@ The connection string can be set using the `AMQP_URL` environment
 variable.
 
 ```
-$ export AMQP_URL="amqp://joe:secret@myspecialhost/somevhost"
-$ bunny subscribe -e ttninjs-batch
-```
-
-#### CONF file
-
-The connection can be specified in a JSON file pointed out by `CONF`
-environment variable.
-
-```
-$ cat conf-localhost.json
-{
-    "amqp": {
-        "connection": {
-            "host": "localhost",
-            "vhost": "docker",
-            "login": "admin",
-            "password": "admin"
-        }
-    }
-}
-$ export CONF=conf-localhost.json
+$ export AMQP_URI="amqp://joe:secret@myspecialhost/somevhost"
 $ bunny subscribe -e ttninjs-batch
 ```
 
@@ -100,7 +74,7 @@ Content-type is inferred if possible.
 
 Using the `replyTo` header.
 
-    $ CONF=conf.json bunny publish -e myservice -r somecall --rpc -f ./foo.json
+    $ bunny publish -e myservice -r somecall --rpc -f ./foo.json
 
 Calls `myservice/somecall` using the contents of file `foo.json` and sets up
 a `replyTo` header and waits the the rpc reply. The reply will be printed
@@ -131,7 +105,7 @@ of the body. If the body is binary, you will see gibberish in the
 terminal.
 
 
-    $ bunny -u admin -p admin -v prod subscribe -e myexchange
+    $ bunny subscribe -e myexchange
     ...
 
 
@@ -169,7 +143,7 @@ The format is:
 ```
 
 
-    $ bunny -u admin -p admin -v prod subscribe -e myexchange -i
+    $ bunny subscribe -e myexchange -i
     ...
 
 
@@ -180,5 +154,5 @@ file. The header `fileName` can be supplied by the sender, in which case
 that file is (over-)written.
 
 
-    $ bunny -u admin -p admin -v prod subscribe -e myexchange -o /tmp
+    $ bunny subscribe -e myexchange -o /tmp
     ...
