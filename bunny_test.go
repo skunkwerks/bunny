@@ -2,16 +2,23 @@ package bunny_test
 
 import (
 	"bunny"
-	"fmt"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 func TestNewBunny(t *testing.T) {
 	t.Parallel()
-	var client bunny.Client
-	client, err := bunny.New()
+	var got bunny.Client
+	got, err := bunny.New()
 	if err != nil {
 		t.Fatal(err)
 	}
-	fmt.Println(client)
+
+	want := bunny.Client{
+		URI: "amqp://guest:guest@localhost/%2f",
+	}
+	if !cmp.Equal(want, got) {
+		t.Fatal(cmp.Diff(want, got))
+	}
 }
