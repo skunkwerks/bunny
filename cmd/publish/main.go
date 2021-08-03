@@ -2,10 +2,14 @@ package main
 
 import (
 	"fmt"
+	"flag"
 	"os"
 )
 
 func main() {
 	fmt.Println(os.Args)
-	// fmt.Printf("%v\n", os.Args)
+
+	// get some flags
+	// create the options
+	// call the publisher
 }

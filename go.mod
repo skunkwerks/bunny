@@ -1,3 +1,3 @@
-module github.com/skunkwerks/bunny
+module bunny
 
 go 1.16
