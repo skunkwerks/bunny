@@ -1,15 +1,16 @@
 package main
 
 import (
+	"bunny"
 	"fmt"
-	"flag"
+	"log"
 	"os"
 )
 
 func main() {
-	fmt.Println(os.Args)
-
-	// get some flags
-	// create the options
-	// call the publisher
+	b, err := bunny.NewBrokerFromArgs(os.Args[1:])
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(b)
 }
